@@ -1,6 +1,6 @@
 %define name 	ploticus
 %define version 2.30
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define filever 230
 
