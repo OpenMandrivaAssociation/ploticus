@@ -1,8 +1,7 @@
 %define name 	ploticus
-%define version 2.30
-%define release %mkrel 4
-
-%define filever 230
+%define version 2.33
+%define upstream_version %(echo %{version} | sed -e 's/\\.//g')
+%define release %mkrel 1
 
 Summary: 	Graph/plot generator
 Name: 		%{name}
@@ -11,21 +10,18 @@ Release: 	%{release}
 License: 	GPL
 Group: 		Publishing
 URL: 		http://ploticus.sourceforge.net/
-Source0:	http://ploticus.sourceforge.net/download/pl%{filever}src.tar.bz2
-Source1:	http://ploticus.sourceforge.net/download/pl%{filever}docs.tar.bz2
-# http://ploticus.sourceforge.net/download/plsrc210_gd20gif.patch
-Patch0:		plsrc230_gd20gif.diff.bz2
+Source0:	http://ploticus.sourceforge.net/download/pl%{upstream_version}src.tar.gz
+Source1:	http://ploticus.sourceforge.net/download/pl%{upstream_version}docs.tar.gz
+Patch0:		ploticus-2.33-gd20gif.patch
 Requires: 	gd-utils
 BuildRequires:	XFree86-devel
 BuildRequires:	freetype-devel
 BuildRequires:	gd-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-#BuildRequires:	ming-devel
-BuildRequires:	xpm
 BuildRequires:	zlib-devel
 Conflicts:	swi-prolog
-BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}buildroot
+BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
 %description
 PLOTICUS is a popular command line utility for creating graphs and plots
@@ -42,8 +38,7 @@ regression and curve fitting are included.
 NOTE: the executable name is: pl
 
 %prep
-
-%setup -q -n pl%{filever}src -a1
+%setup -q -n pl%{upstream_version}src -a1
 %patch0 -p1
 
 # with ming:
@@ -68,23 +63,23 @@ cd src
 #    MINGH="-I%{_includedir}" \
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}
-install -m755 src/pl -D $RPM_BUILD_ROOT%{_bindir}/pl
-cp prefabs/* $RPM_BUILD_ROOT%{_datadir}/%{name}
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{_datadir}/%{name}
+install -m755 src/pl -D %{buildroot}%{_bindir}/pl
+cp prefabs/* %{buildroot}%{_datadir}/%{name}
 
 install -d %{buildroot}%{_mandir}/man1
 #install -d %{buildroot}%{_mandir}/man3
 
-install -m0644 pl%{filever}docs/man/man1/pl.1 %{buildroot}%{_mandir}/man1/
+install -m0644 pl%{upstream_version}docs/man/man1/pl.1 %{buildroot}%{_mandir}/man1/
 #install -m0644 pl%{sver}docs/man/man3/libploticus.3 %{buildroot}%{_mandir}/man3/
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README pl%{filever}docs/index.html pl%{filever}docs/doc
+%doc README pl%{upstream_version}docs/index.html pl%{upstream_version}docs/doc
 %{_bindir}/pl
 %{_datadir}/%{name}
 %{_mandir}/man1/pl.1*
