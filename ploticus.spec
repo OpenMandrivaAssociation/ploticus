@@ -14,7 +14,7 @@ Source0:	http://ploticus.sourceforge.net/download/pl%{upstream_version}src.tar.g
 Source1:	http://ploticus.sourceforge.net/download/pl%{upstream_version}docs.tar.gz
 Patch0:		ploticus-2.33-gd20gif.patch
 Requires: 	gd-utils
-BuildRequires:	XFree86-devel
+BuildRequires:	X11-devel
 BuildRequires:	freetype-devel
 BuildRequires:	gd-devel
 BuildRequires:	libjpeg-devel
