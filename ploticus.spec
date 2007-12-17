@@ -21,7 +21,6 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 Conflicts:	swi-prolog
-BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
 %description
 PLOTICUS is a popular command line utility for creating graphs and plots
