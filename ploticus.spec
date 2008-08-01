@@ -1,7 +1,7 @@
 %define name 	ploticus
 %define version 2.33
 %define upstream_version %(echo %{version} | sed -e 's/\\.//g')
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: 	Graph/plot generator
 Name: 		%{name}
