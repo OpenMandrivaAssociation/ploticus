@@ -1,18 +1,19 @@
 %define name 	ploticus
-%define version 2.33
+%define version 2.41
 %define upstream_version %(echo %{version} | sed -e 's/\\.//g')
-%define release %mkrel 4
+%define release %mkrel 1
 
 Summary: 	Graph/plot generator
 Name: 		%{name}
 Version: 	%{version}
 Release: 	%{release}
-License: 	GPL
+License: 	GPL+
 Group: 		Publishing
 URL: 		http://ploticus.sourceforge.net/
 Source0:	http://ploticus.sourceforge.net/download/pl%{upstream_version}src.tar.gz
 Source1:	http://ploticus.sourceforge.net/download/pl%{upstream_version}docs.tar.gz
 Patch0:		ploticus-2.33-gd20gif.patch
+Patch1:		ploticus-2.41-fix-str-fmt.patch
 Requires: 	gd-utils
 BuildRequires:	X11-devel
 BuildRequires:	freetype-devel
@@ -39,7 +40,8 @@ NOTE: the executable name is: pl
 
 %prep
 %setup -q -n pl%{upstream_version}src -a1
-%patch0 -p1
+%patch0 -p1 -b .gd20gif
+%patch1 -p1 -b .strfmt
 
 # with ming:
 #perl -pi -e "s|^NOSWFFLAG.* = -DNOSWF|#NOSWFFLAG = -DNOSWF|g" src/Makefile
