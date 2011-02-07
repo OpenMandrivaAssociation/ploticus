@@ -1,7 +1,7 @@
 %define name 	ploticus
 %define version 2.41
 %define upstream_version %(echo %{version} | sed -e 's/\\.//g')
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: 	Graph/plot generator
 Name: 		%{name}
@@ -15,12 +15,7 @@ Source1:	http://ploticus.sourceforge.net/download/pl%{upstream_version}docs.tar.
 Patch0:		ploticus-2.33-gd20gif.patch
 Patch1:		ploticus-2.41-fix-str-fmt.patch
 Requires: 	gd-utils
-BuildRequires:	X11-devel
-BuildRequires:	freetype-devel
 BuildRequires:	gd-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	libpng-devel
-BuildRequires:	zlib-devel
 Conflicts:	swi-prolog
 BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
@@ -48,10 +43,10 @@ NOTE: the executable name is: pl
 
 %build
 cd src
-%make	CC="%{__cc} $RPM_OPT_FLAGS" \
-	XLIBS="-L%{_prefix}/X11R6/%{_lib} -lX11" \
-	XINCLUDEDIR="-I%{_prefix}/X11R6/include" \
-	GD18LIBS="-lgd -lpng -lz -ljpeg -lfreetype" \
+%make	CC="%{__cc} %optflags %ldflags" \
+	XLIBS="-L%{_libdir} -lX11" \
+	XINCLUDEDIR="-I%{_includedir}" \
+	GD18LIBS="-lgd" \
 	GD18H="" \
 	GDFREETYPE="-DGDFREETYPE" \
 	ZFLAG="-DWZ" \
