@@ -1,0 +1,24 @@
+diff -p -up pl241src/src/units.c.strfmt pl241src/src/units.c
+--- pl241src/src/units.c.strfmt	2009-03-11 14:51:15.000000000 +0100
++++ pl241src/src/units.c	2009-06-22 00:07:58.000000000 +0200
+@@ -607,16 +607,16 @@ else if( strcmp( desc, "mm/yyyy" )==0 ) 
+ 	result[2] = '/'; result[5] = '/';
+ 	}
+ else if( strcmp( desc, "yyqn" )==0 ) {
+-	if( slen == 4 ) { sprintf( result, s ); quar = s[3]; placeconv = 2; }
++	if( slen == 4 ) { sprintf( result, "%s", s ); quar = s[3]; placeconv = 2; }
+ 	}
+ else if( strcmp( desc, "yyyyqn" )==0 ) {
+-	if( slen == 6 ) { sprintf( result, s ); quar = s[5]; placeconv = 4; }
++	if( slen == 6 ) { sprintf( result, "%s", s ); quar = s[5]; placeconv = 4; }
+ 	}
+ else if( strcmp( desc, "nqyy" )==0 ) {
+-	if( slen == 4 ) { sprintf( result, &s[2] ); quar = s[0]; placeconv = 2; }
++	if( slen == 4 ) { sprintf( result, "%s", &s[2] ); quar = s[0]; placeconv = 2; }
+ 	}
+ else if( strcmp( desc, "nqyyyy" )==0 ) {
+-	if( slen == 6 ) { sprintf( result, &s[2] ); quar = s[0]; placeconv = 4; }
++	if( slen == 6 ) { sprintf( result, "%s", &s[2] ); quar = s[0]; placeconv = 4; }
+ 	}
+ else Eerr( 4802, "unrecognized subscale type", desc );
+ 
