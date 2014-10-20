@@ -1,23 +1,21 @@
-%define name 	ploticus
-%define version 2.41
 %define upstream_version %(echo %{version} | sed -e 's/\\.//g')
-%define release %mkrel 4
+%define docs_version 2.4.1
+%define docs_upstream_version %(echo %{docs_version} | sed -e 's/\\.//g')
 
 Summary: 	Graph/plot generator
-Name: 		%{name}
-Version: 	%{version}
-Release: 	%{release}
-License: 	GPL+
+Name: 		ploticus
+Version: 	2.42
+Release: 	1
+License: 	GPLv2
 Group: 		Publishing
 URL: 		http://ploticus.sourceforge.net/
-Source0:	http://ploticus.sourceforge.net/download/pl%{upstream_version}src.tar.gz
-Source1:	http://ploticus.sourceforge.net/download/pl%{upstream_version}docs.tar.gz
-Patch0:		ploticus-2.33-gd20gif.patch
-Patch1:		ploticus-2.41-fix-str-fmt.patch
-Requires: 	gd-utils
-BuildRequires:	gd-devel
+#http://downloads.sourceforge.net/ploticus/2.4.2/ploticus242_src.tar.gz
+#http://downloads.sourceforge.net/ploticus/2.4.1/pl241docs.tar.gz
+Source0:	http://downloads.sourceforge.net/ploticus/%{version}/ploticus%{upstream_version}_src.tar.gz
+Source1:	http://downloads.sourceforge.net/ploticus/%{docs_version}/pl%{docs_upstream_version}docs.tar.gz
+Requires: 	gd-utils 
+BuildRequires:	gd-devel pkgconfig(zlib)
 Conflicts:	swi-prolog
-BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
 %description
 PLOTICUS is a popular command line utility for creating graphs and plots
@@ -34,49 +32,35 @@ regression and curve fitting are included.
 NOTE: the executable name is: pl
 
 %prep
-%setup -q -n pl%{upstream_version}src -a1
-%patch0 -p1 -b .gd20gif
-%patch1 -p1 -b .strfmt
-
-# with ming:
-#perl -pi -e "s|^NOSWFFLAG.* = -DNOSWF|#NOSWFFLAG = -DNOSWF|g" src/Makefile
+%setup -q -n ploticus%{upstream_version} -a1
 
 %build
 cd src
-%make	CC="%{__cc} %optflags %ldflags" \
+%make	CC="%{__cc} %{optflags} %ldflags" \
 	XLIBS="-L%{_libdir} -lX11" \
 	XINCLUDEDIR="-I%{_includedir}" \
 	GD18LIBS="-lgd" \
 	GD18H="" \
 	GDFREETYPE="-DGDFREETYPE" \
-	ZFLAG="-DWZ" \
+	ZFLAG="" \
 	PREFABS_DIR=%{_datadir}/%{name} \
 	LOCALEOBJ=localef.o \
 	LOCALE_FLAG="-DLOCALE" \
-	plgd18
-
-# it won't compile...
-#    MING="-lming" \
-#    MINGH="-I%{_includedir}" \
+	plgd18 -lz
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_datadir}/%{name}
 install -m755 src/pl -D %{buildroot}%{_bindir}/pl
 cp prefabs/* %{buildroot}%{_datadir}/%{name}
 
 install -d %{buildroot}%{_mandir}/man1
-#install -d %{buildroot}%{_mandir}/man3
 
-install -m0644 pl%{upstream_version}docs/man/man1/pl.1 %{buildroot}%{_mandir}/man1/
-#install -m0644 pl%{sver}docs/man/man3/libploticus.3 %{buildroot}%{_mandir}/man3/
+install -m0644 pl%{docs_upstream_version}docs/man/man1/pl.1 %{buildroot}%{_mandir}/man1/
 
 %clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
-%doc README pl%{upstream_version}docs/index.html pl%{upstream_version}docs/doc
+%doc pl%{docs_upstream_version}docs/index.html pl%{docs_upstream_version}docs/doc
 %{_bindir}/pl
 %{_datadir}/%{name}
 %{_mandir}/man1/pl.1*
