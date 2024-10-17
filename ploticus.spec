@@ -8,7 +8,7 @@ Version: 	2.42
 Release: 	1
 License: 	GPLv2
 Group: 		Publishing
-URL: 		http://ploticus.sourceforge.net/
+URL: 		https://ploticus.sourceforge.net/
 #http://downloads.sourceforge.net/ploticus/2.4.2/ploticus242_src.tar.gz
 #http://downloads.sourceforge.net/ploticus/2.4.1/pl241docs.tar.gz
 Source0:	http://downloads.sourceforge.net/ploticus/%{version}/ploticus%{upstream_version}_src.tar.gz
